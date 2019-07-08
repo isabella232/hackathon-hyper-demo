@@ -1,0 +1,64 @@
+﻿@model HyperDemo.Models.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+}
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card">
+
+                    <!-- Logo -->
+                    <div class="card-header pt-4 pb-4 text-center bg-primary">
+                        <a href="index.html">
+                            <span><img src="/assets/images/logo.png" alt="" height="18"></span>
+                        </a>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <h2>@ViewBag.Title.</h2>
+                        <h3>Associate your @ViewBag.LoginProvider account.</h3>
+
+                        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <p>
+                                You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
+                                Please enter a user name for this site below and click the Register button to finish
+                                logging in.
+                            </p>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-12 control-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" class="btn btn-primary" value="Register" />
+                                </div>
+                            </div>
+                        }
+                    </div> <!-- end card-body -->
+                </div>
+                <!-- end card -->
+                <!-- end row -->
+
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end page -->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

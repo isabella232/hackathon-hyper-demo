@@ -1,0 +1,112 @@
+﻿@using HyperDemo.Helpers
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hyper - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- inline style to handle loading of various element-->
+    <style>
+        body.loading {
+            visibility: hidden;
+        }
+    </style>
+
+    <!-- third party css -->
+    <link href="/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/app.css" rel="stylesheet" type="text/css" id="main-style-container" />
+
+</head>
+
+<body class="loading">
+
+
+
+    @Html.Partial("_TopBar")
+    <!-- Begin page -->
+    <div class="wrapper">
+        <div id="vertical-sidebar-placeholder"></div>
+        <div id="detached-sidebar-placeholder"></div>
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        @RenderBody()
+
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+    <!-- bundle -->
+    <div id="weavy-messenger-container"></div>
+    <script src="/assets/js/app.js"></script>
+
+    <!-- third party js -->
+    <script src="/assets/js/vendor/Chart.bundle.min.js"></script>
+    <script src="/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- third party js ends -->
+    <!-- demo app -->
+    <script src="/assets/js/pages/demo.dashboard.js"></script>
+    <!-- end demo js-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://hyper.weavycloud.com/javascript/weavy.js"></script>
+
+    <script>
+
+        $(function () {
+            var weavyMessenger = new Weavy(
+                {
+                    container: $("#weavy-messenger-container"),
+                    plugins: {
+                    sso: {
+                        jwt: "@JWTHelper.GenerateJWT()"
+                    }
+                }
+            });
+            weavyMessenger.addPanel("messenger-panel", "messenger");
+
+            $(document).on("click", ".toggle-messenger", function () {
+                weavyMessenger.toggle("messenger-panel");
+            });
+
+            // handle client open / close
+            weavyMessenger.on("open", function() {
+                $("#weavy-messenger-container").addClass("open");
+            });
+
+            weavyMessenger.on("close", function() {
+                $("#weavy-messenger-container").removeClass("open");
+            });
+
+            // hook up to the badge event
+            weavyMessenger.on("badge", function (e, data) {
+                if (data.conversations === 0) {
+                    $(".toggle-messenger").removeClass("has-unread");
+                } else {
+                    $(".toggle-messenger").addClass("has-unread");
+                }
+            });
+        })
+
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
